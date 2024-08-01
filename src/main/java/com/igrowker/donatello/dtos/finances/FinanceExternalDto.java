@@ -1,5 +1,6 @@
 package com.igrowker.donatello.dtos.finances;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +21,7 @@ public class FinanceExternalDto {
 
     private Double monto;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate fecha;
 
     private Integer id_usuario;

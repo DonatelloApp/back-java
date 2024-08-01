@@ -85,14 +85,9 @@ public class FinancesServiceImpl implements IFinancesService {
         // Mapear FinanceDTO a FinanceExternalDto
         FinanceExternalDto externalDto = financeMapper.toFinanceExternalDto(dto);
 
-
-        HttpHeaders pythonHeaders = headers;
-
-        //pythonHeaders.setAccept(MediaType.APPLICATION_JSON);
-
         ResponseEntity<FinanceExternalDto> resp = restTemplate.postForEntity(
                 getUrlApiPython() + "/finances/create/",
-                new HttpEntity<>(externalDto,pythonHeaders), // getNewHeadersWithAuth()
+                new HttpEntity<>(externalDto,getNewHeadersWithAuth()),
                 FinanceExternalDto.class);
 
         // Mapear de vuelta a FinanceDTO
