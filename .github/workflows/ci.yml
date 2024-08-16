@@ -57,7 +57,7 @@ jobs:
   deploy-to-render:
     name: Deploy to render
     needs: [build-and-push-to-docker]
-    if: success() 
+    if: success()
     runs-on: ubuntu-latest
 
     steps:
