@@ -1,7 +1,9 @@
 package com.igrowker.donatello.utils;
 
+import com.igrowker.donatello.exceptions.FieldInvalidException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,5 +58,21 @@ public class JWTUtils {
         return extractClaims(token, Claims::getExpiration).before(new Date());
     }
 
+    public String createTokenForRestorePassword(String email){
+        return Jwts.builder()
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000*60*60*24))
+                .setSubject(email)
+                .signWith(getKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    public String getEmailFromToken(String token) {
+        try{
+            return extractClaims(token , Claims:: getSubject);
+        }catch (Exception e){
+            throw new FieldInvalidException("Wrong JWT => "+e.getMessage());
+        }
+    }
 
 }
